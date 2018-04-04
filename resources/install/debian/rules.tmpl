@@ -6,6 +6,12 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 export PACKAGE_NAME=_PACKAGE_NAME_
 export ANT=ant
 
+ifeq ($(DEB_HOST_ARCH),amd64)
+export USR_LIB_FOLDER=/usr/lib/x86_64-linux-gnu
+else
+export USR_LIB_FOLDER=/usr/lib/i386-linux-gnu
+endif
+
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
@@ -31,6 +37,16 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 else
 	dh_install -p$(PACKAGE_NAME)-jni lib/native/linux/*.so usr/lib/jni/
 endif
+	test -e $(USR_LIB_FOLDER)/libavformat-ffmpeg.so.56 && dh_link $(USR_LIB_FOLDER)/libavformat-ffmpeg.so.56 usr/lib/jni/libavformat.so || true
+	test -e $(USR_LIB_FOLDER)/libavcodec-ffmpeg.so.56 && dh_link $(USR_LIB_FOLDER)/libavcodec-ffmpeg.so.56 usr/lib/jni/libavcodec.so || true
+	test -e $(USR_LIB_FOLDER)/libavfilter-ffmpeg.so.5 && dh_link $(USR_LIB_FOLDER)/libavfilter-ffmpeg.so.5 usr/lib/jni/libavfilter.so || true
+	test -e $(USR_LIB_FOLDER)/libavutil-ffmpeg.so.54 && dh_link $(USR_LIB_FOLDER)/libavutil-ffmpeg.so.54 usr/lib/jni/libavutil.so || true
+	test -e $(USR_LIB_FOLDER)/libswscale-ffmpeg.so.3 && dh_link $(USR_LIB_FOLDER)/libswscale-ffmpeg.so.3 usr/lib/jni/libswscale.so || true
+	test -e $(USR_LIB_FOLDER)/libavformat.so.57 && dh_link $(USR_LIB_FOLDER)/libavformat.so.57 usr/lib/jni/libavformat.so || true
+	test -e $(USR_LIB_FOLDER)/libavcodec.so.57 && dh_link $(USR_LIB_FOLDER)/libavcodec.so.57 usr/lib/jni/libavcodec.so || true
+	test -e $(USR_LIB_FOLDER)/libavfilter.so.6 && dh_link $(USR_LIB_FOLDER)/libavfilter.so.6 usr/lib/jni/libavfilter.so || true
+	test -e $(USR_LIB_FOLDER)/libavutil.so.55 && dh_link $(USR_LIB_FOLDER)/libavutil.so.55 usr/lib/jni/libavutil.so || true
+	test -e $(USR_LIB_FOLDER)/libswscale.so.4 && dh_link $(USR_LIB_FOLDER)/libswscale.so.4 usr/lib/jni/libswscale.so || true
 
 # we have folders with name *.jar which jh_manifest don't like and fails,
 # we do not use it so skip it
